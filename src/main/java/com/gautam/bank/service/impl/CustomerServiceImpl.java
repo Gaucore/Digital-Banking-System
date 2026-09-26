@@ -1,17 +1,25 @@
+
 package com.gautam.bank.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gautam.bank.dto.request.customer.CustomerRequest;
 import com.gautam.bank.dto.response.customer.CustomerResponse;
 import com.gautam.bank.entity.customer.Customer;
 import com.gautam.bank.enums.CustomerStatus;
 import com.gautam.bank.exception.DuplicateResourceException;
+import com.gautam.bank.exception.InvalidRequestException;
 import com.gautam.bank.exception.ResourceNotFoundException;
 import com.gautam.bank.mapper.CustomerMapper;
 import com.gautam.bank.repository.CustomerRepository;
 import com.gautam.bank.service.CodeSequenceService;
 import com.gautam.bank.service.CustomerService;
+
 import java.util.*;
 import lombok.AllArgsConstructor;
 
@@ -54,18 +62,61 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.toResponse(customer);
     }
 
-    // @Override
-    // public List<CustomerResponse> getAllCustomer() {
-    // return null;
-    // }
+    @Override
+    @Transactional(readOnly = true)
+    public Page<CustomerResponse> getAllCustomers(
+            int page,
+            int size,
+            String sortBy,
+            String direction) {
 
-    // @Override
-    // public CustomerResponse updateCustomer(Long id, CustomerRequest request) {
-    // return null;
-    // }
+        Sort sort = direction.equalsIgnoreCase("DESC")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
 
-    // @Override
-    // public void deleteCustomer(Long id) {
+        Pageable pageable = PageRequest.of(page, size, sort);
 
-    // }
+        Page<Customer> customerPage = customerRepository.findAll(pageable);
+
+        return customerPage.map(customerMapper::toResponse);
+    }
+
+    @Override
+    @Transactional
+    public CustomerResponse updateCustomer(Long id, CustomerRequest request) {
+
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id : " + id));
+
+        if (customerRepository.existsByEmailAndIdNot(request.getEmail(), id)) {
+            throw new DuplicateResourceException("Email already exists");
+        }
+
+        if (customerRepository.existsByPhoneAndIdNot(request.getPhone(), id)) {
+            throw new DuplicateResourceException("Phone already exists");
+        }
+
+        customerMapper.updateEntity(request, customer);
+        customer = customerRepository.save(customer);
+        return customerMapper.toResponse(customer);
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Customer not found with id : " + id));
+
+        if (customer.getStatus() == CustomerStatus.INACTIVE) {
+            throw new InvalidRequestException(
+                    "Customer is already inactive.");
+
+        }
+
+        customer.setStatus(CustomerStatus.INACTIVE);
+
+        customerRepository.save(customer);
+
+    }
 }

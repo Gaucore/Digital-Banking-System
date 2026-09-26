@@ -1,14 +1,11 @@
 package com.gautam.bank.entity.auth;
 
-import jakarta.persistence.Entity;
-
 import java.time.LocalDateTime;
 
 import com.gautam.bank.entity.BaseEntity;
 import com.gautam.bank.enums.UserRole;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +37,8 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private boolean enabled = true;
+
+    // private UserStatus status;
 
     // @Column(nullable = false, updatable = false)
     // private LocalDateTime createAt;
