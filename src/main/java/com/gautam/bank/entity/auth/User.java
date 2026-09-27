@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.gautam.bank.entity.BaseEntity;
 import com.gautam.bank.enums.UserRole;
+import com.gautam.bank.enums.UserStatus;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    // private UserStatus status;
+    private UserStatus status;
 
     // @Column(nullable = false, updatable = false)
     // private LocalDateTime createAt;

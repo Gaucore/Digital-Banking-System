@@ -2,11 +2,10 @@ package com.gautam.bank.entity;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,10 +14,24 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
+    // Step 1 - Created Date
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
+    // Step 2 - Updated Date
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    // Step 3 - Set Created & Updated Date Before Insert
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    // Step 4 - Update Modified Date Before Update
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

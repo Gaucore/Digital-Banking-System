@@ -23,7 +23,7 @@ public class CodeSequence {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long is;
+    private Long id;
 
     @Column(name = "sequence_name", unique = true, nullable = false)
     private String sequenceName;
