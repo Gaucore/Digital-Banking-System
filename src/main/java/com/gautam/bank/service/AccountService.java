@@ -9,8 +9,10 @@ public interface AccountService {
 
     AccountResponse openAccount(AccountRequest request);
 
-    AccountResponse getAccountByNumber(String accountNumber);
+    // AccountResponse getAccountByNumber(String accountNumber);
 
-    List<AccountResponse> getCustomerAccounts(Long customerId);
+    // List<AccountResponse> getCustomerAccounts(Long customerId);
+
+    // void closeAccount(String accountNumber);
 
 }

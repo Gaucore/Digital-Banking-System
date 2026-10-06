@@ -5,18 +5,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gautam.bank.dto.request.customer.CustomerRequest;
+import com.gautam.bank.dto.request.enableBankingCustomer.EnableInternetBankingRequest;
+import com.gautam.bank.dto.response.account.CustomerAccountResponse;
 import com.gautam.bank.dto.response.customer.CustomerResponse;
+import com.gautam.bank.dto.response.customerProfile.CustomerProfileResponse;
+import com.gautam.bank.dto.response.enableBankingCustomer.InternetBankingResponse;
+import com.gautam.bank.dto.response.transaction.CustomerTransactionResponse;
+import com.gautam.bank.entity.account.Account;
+import com.gautam.bank.entity.auth.User;
 import com.gautam.bank.entity.customer.Customer;
+import com.gautam.bank.entity.transaction.Transaction;
 import com.gautam.bank.enums.CustomerStatus;
+import com.gautam.bank.enums.UserRole;
 import com.gautam.bank.exception.DuplicateResourceException;
 import com.gautam.bank.exception.InvalidRequestException;
 import com.gautam.bank.exception.ResourceNotFoundException;
 import com.gautam.bank.mapper.CustomerMapper;
+import com.gautam.bank.repository.AccountRepository;
 import com.gautam.bank.repository.CustomerRepository;
+import com.gautam.bank.repository.TransactionRepository;
+import com.gautam.bank.repository.UserRepository;
 import com.gautam.bank.service.CodeSequenceService;
 import com.gautam.bank.service.CustomerService;
 
@@ -30,6 +44,11 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
     private final CodeSequenceService codeSequenceService;
+    private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
+
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public CustomerResponse createCustomer(CustomerRequest request) {
@@ -119,4 +138,129 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
 
     }
+
+    @Override
+    @Transactional
+    public InternetBankingResponse enableInternetBanking(
+            EnableInternetBankingRequest request) {
+
+        // Step 1 - Find Customer
+        Customer customer = customerRepository.findById(request.getCustomerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+        // Step 2 - Check Internet Banking Already Enabled
+        if (customer.getUser() != null) {
+            throw new IllegalArgumentException(
+                    "Internet Banking is already enabled.");
+        }
+
+        // Step 3 - Check Username Already Exists
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new DuplicateResourceException(
+                    "Username already exists.");
+        }
+
+        // Step 4 - Encode Password
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        // Step 5 - Create User
+        User user = User.builder()
+                .username(request.getUsername())
+                .password(encodedPassword)
+                .role(UserRole.CUSTOMER)
+                .build();
+
+        // Step 6 - Save User
+        user = userRepository.save(user);
+
+        // Step 7 - Link User With Customer
+        customer.setUser(user);
+
+        // Step 8 - Save Customer
+        customer = customerRepository.save(customer);
+
+        // Step 9 - Return Response
+        return InternetBankingResponse.builder()
+                .customerCode(customer.getCustomerCode())
+                .username(user.getUsername())
+                .role(user.getRole().name())
+                .message("Internet Banking enabled successfully.")
+                .build();
+    }
+
+    @Override
+    public CustomerProfileResponse getMyProfile() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found."));
+
+        Customer customer = customerRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("customer not found."));
+
+        return CustomerProfileResponse.builder().customerCode(customer.getCustomerCode())
+                .firstName(customer.getFirstName()).lastName(customer.getLastName()).email(customer.getEmail())
+                .phone(customer.getPhone()).status(customer.getStatus().name()).username(user.getUsername()).build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CustomerAccountResponse> getMyAccounts() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found."));
+
+        Customer customer = customerRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("customer not found."));
+
+        List<Account> accounts = accountRepository.findByCustomer(customer);
+
+        return accounts.stream()
+                .map(account -> CustomerAccountResponse.builder()
+                        .accountNumber(account.getAccountNumber())
+                        .accountType(account.getAccountType())
+                        .balance(account.getBalance())
+                        .accountStatus(account.getAccountStatus())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CustomerTransactionResponse> getMyTransactions() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found."));
+        Customer customer = customerRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("customer not found."));
+        List<Account> accounts = accountRepository.findByCustomer(customer);
+        List<CustomerTransactionResponse> responses = new ArrayList<>();
+        for (Account account : accounts) {
+            List<Transaction> transactions = transactionRepository.findByAccountOrderByCreatedAtDesc(account);
+            for (Transaction transaction : transactions) {
+                responses.add(
+                        CustomerTransactionResponse.builder()
+                                .transactionNumber(transaction.getTransactionNumber())
+                                .transactionType(transaction.getTransactionType())
+                                .fromAccountNumber(
+                                        transaction.getFromAccount() != null
+                                                ? transaction.getFromAccount().getAccountNumber()
+                                                : null)
+                                .toAccountNumber(
+                                        transaction.getToAccount() != null
+                                                ? transaction.getToAccount().getAccountNumber()
+                                                : null)
+                                .amount(transaction.getAmount())
+                                .previousBalance(transaction.getPreviousBalance())
+                                .currentBalance(transaction.getCurrentBalance())
+                                .remarks(transaction.getRemarks())
+                                .transactionDate(transaction.getCreatedAt().toLocalDate())
+                                .build());
+            }
+        }
+
+        return  responses;
+    }
+
 }

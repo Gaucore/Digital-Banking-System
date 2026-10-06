@@ -8,4 +8,6 @@ public interface CodeSequenceService {
 
     String generateTransactionNumber();
 
+    String generateEmployeeCode();
+
 }

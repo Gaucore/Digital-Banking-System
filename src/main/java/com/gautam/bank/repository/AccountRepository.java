@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.gautam.bank.entity.account.Account;
+import com.gautam.bank.entity.customer.Customer;
 import com.gautam.bank.enums.AccountStatus;
 import com.gautam.bank.enums.AccountType;
 
@@ -23,5 +24,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findByAccountType(AccountType accountType);
 
     boolean existsByAccountNumber(String accountNumber);
+
+    List<Account> findByCustomer(Customer customer);
 
 }

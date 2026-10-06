@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.gautam.bank.entity.BaseEntity;
 import com.gautam.bank.entity.account.Account;
+import com.gautam.bank.entity.auth.User;
 import com.gautam.bank.enums.CustomerStatus;
 import com.gautam.bank.enums.Gender;
 
@@ -57,6 +58,10 @@ public class Customer extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CustomerStatus status;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> accounts;

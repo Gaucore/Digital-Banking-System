@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.gautam.bank.enums.AccountStatus;
+import com.gautam.bank.enums.AccountType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,10 +19,11 @@ import lombok.Setter;
 @Builder
 public class AccountResponse {
 
-    private Long id;
+     private Long id;
     private String accountNumber;
     private String customerCode;
     private String customerName;
+    private AccountType accountType;
     private BigDecimal balance;
     private AccountStatus status;
     private LocalDate createdAt;
