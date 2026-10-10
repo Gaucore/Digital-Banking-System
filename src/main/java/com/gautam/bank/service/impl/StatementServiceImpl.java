@@ -1,10 +1,10 @@
 package com.gautam.bank.service.impl;
 
+import com.gautam.bank.util.excel.StatementExcelGenerator;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.List;
 
-import org.mapstruct.control.MappingControl.Use;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,8 @@ import com.gautam.bank.repository.CustomerRepository;
 import com.gautam.bank.repository.TransactionRepository;
 import com.gautam.bank.repository.UserRepository;
 import com.gautam.bank.service.StatementService;
+import com.gautam.bank.util.pdf.StatementPdfGenerator;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
@@ -29,10 +31,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StatementServiceImpl implements StatementService {
 
+        private final StatementExcelGenerator statementExcelGenerator;
         private final UserRepository userRepository;
         private final CustomerRepository customerRepository;
         private final AccountRepository accountRepository;
         private final TransactionRepository transactionRepository;
+        private final StatementPdfGenerator statementPdfGenerator;
 
         @Override
         @Transactional(readOnly = true)
@@ -164,6 +168,52 @@ public class StatementServiceImpl implements StatementService {
                                                 .build())
                                 .toList();
 
+        }
+
+        @Override
+        @Transactional(readOnly = true)
+        public byte[] downloadStatementPdf(StatementRequest request) {
+
+                List<StatementResponse> statements = getStatement(request);
+
+                Account account = accountRepository.findByAccountNumber(request.getAccountNumber())
+                                .orElseThrow(() -> new ResourceNotFoundException("Account not found."));
+
+                String customerName = account.getCustomer().getFirstName() + " " + account.getCustomer().getLastName();
+
+                String period = request.getFromDate() + " to " + request.getToDate();
+
+                // return statementPdfGenerator.generatePdf(customerName,
+                // account.getAccountNumber(), period, statements);
+                byte[] pdf = statementPdfGenerator.generatePdf(
+                                customerName,
+                                account.getAccountNumber(),
+                                period,
+                                statements);
+
+                System.out.println("PDF Size : " + pdf.length);
+
+                return pdf;
+        }
+
+        @Override
+        @Transactional(readOnly = true)
+        public byte[] downloadStatementExcel(StatementRequest request) {
+
+                List<StatementResponse> statements = getStatement(request);
+
+                Account account = accountRepository.findByAccountNumber(request.getAccountNumber())
+                                .orElseThrow(() -> new ResourceNotFoundException("Account not found."));
+
+                String customerName = account.getCustomer().getFirstName() + " " + account.getCustomer().getLastName();
+
+                String period = request.getFromDate() + " to " + request.getToDate();
+
+                return statementExcelGenerator.generateExcel(
+                                customerName,
+                                account.getAccountNumber(),
+                                period,
+                                statements);
         }
 
 }

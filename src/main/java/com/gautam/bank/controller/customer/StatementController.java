@@ -1,5 +1,6 @@
 package com.gautam.bank.controller.customer;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,8 @@ import com.gautam.bank.service.StatementService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/api/customer/statements")
@@ -34,8 +36,27 @@ public class StatementController {
     }
 
     @PostMapping("/monthly")
-    public ResponseEntity<List<StatementResponse>> getMonthlyStatement(@Valid @RequestBody MonthlyStatementRequest request) {        
+    public ResponseEntity<List<StatementResponse>> getMonthlyStatement(
+            @Valid @RequestBody MonthlyStatementRequest request) {
         return ResponseEntity.ok(statementService.getMonthlyStatement(request));
     }
+
+    @PostMapping("/pdf")
+    public ResponseEntity<byte[]> downloadPdf(@Valid @RequestBody StatementRequest request) {
+        byte[] pdf = statementService.downloadStatementPdf(request);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=statement.pdf")
+                .contentType(MediaType.APPLICATION_PDF).body(pdf);
+    }
+
+    @PostMapping("/excel")
+    public ResponseEntity<byte[]> downloadExcel(@Valid @RequestBody StatementRequest request) {
+        byte[] excel = statementService.downloadStatementExcel(request);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=statement.xlsx")
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excel);
+    }
+
     
+
 }

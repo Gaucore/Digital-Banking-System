@@ -14,5 +14,7 @@ public interface StatementService {
 
     List<StatementResponse> getMonthlyStatement(MonthlyStatementRequest request);
 
-    
-} 
+    byte[] downloadStatementPdf(StatementRequest request);
+
+    byte[] downloadStatementExcel(StatementRequest request);
+}
