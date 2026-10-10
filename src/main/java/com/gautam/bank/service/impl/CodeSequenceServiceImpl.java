@@ -51,4 +51,9 @@ public class CodeSequenceServiceImpl implements CodeSequenceService {
     public String generateEmployeeCode() {
         return String.format("EMP%06d", getNextValue("EMPLOYEE"));
     }
+
+    @Override
+    public String generateBeneficiaryCode() {
+        return String.format("BEN%06d", getNextValue("BENEFICIARY"));
+    }
 }

@@ -1,5 +1,6 @@
 package com.gautam.bank.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ import com.gautam.bank.entity.transaction.Transaction;
 import com.gautam.bank.enums.TransactionType;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long> ,JpaSpecificationExecutor<Transaction> {
+public interface TransactionRepository extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
 
     Optional<Transaction> findByTransactionNumber(String transactionNumber);
 
@@ -25,5 +26,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     List<Transaction> findByAccountOrderByCreatedAtDesc(Account account);
 
-    
+    List<Transaction> findTop10ByAccountOrderByCreatedAtDesc(Account account);
+
+    List<Transaction> findByAccountAndCreatedAtBetweenOrderByCreatedAtDesc(Account account,LocalDateTime from,LocalDateTime to);
+
 }

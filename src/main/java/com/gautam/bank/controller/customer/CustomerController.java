@@ -10,6 +10,7 @@ import com.gautam.bank.dto.response.customer.CustomerResponse;
 import com.gautam.bank.dto.response.customerProfile.CustomerProfileResponse;
 import com.gautam.bank.dto.response.enableBankingCustomer.InternetBankingResponse;
 import com.gautam.bank.dto.response.transaction.CustomerTransactionResponse;
+import com.gautam.bank.dto.response.transaction.TransactionFilterRequest;
 import com.gautam.bank.service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 
 
@@ -59,8 +61,8 @@ public class CustomerController {
     }
     
     @GetMapping("/transactions")
-    public ResponseEntity<List<CustomerTransactionResponse>> getMyTransactions() {
-        List<CustomerTransactionResponse> response= customerService.getMyTransactions();
+    public ResponseEntity<List<CustomerTransactionResponse>> getMyTransactions(@ModelAttribute TransactionFilterRequest request) {
+        List<CustomerTransactionResponse> response= customerService.getMyTransactions(request);
         return ResponseEntity.ok(response);
     }
     

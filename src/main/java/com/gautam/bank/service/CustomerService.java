@@ -11,6 +11,7 @@ import com.gautam.bank.dto.response.customer.CustomerResponse;
 import com.gautam.bank.dto.response.customerProfile.CustomerProfileResponse;
 import com.gautam.bank.dto.response.enableBankingCustomer.InternetBankingResponse;
 import com.gautam.bank.dto.response.transaction.CustomerTransactionResponse;
+import com.gautam.bank.dto.response.transaction.TransactionFilterRequest;
 
 public interface CustomerService {
 
@@ -34,6 +35,6 @@ public interface CustomerService {
 
     List<CustomerAccountResponse> getMyAccounts();
 
-    List<CustomerTransactionResponse> getMyTransactions();
+    List<CustomerTransactionResponse> getMyTransactions(TransactionFilterRequest request);
     
 }

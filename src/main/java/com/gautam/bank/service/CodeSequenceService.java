@@ -10,4 +10,5 @@ public interface CodeSequenceService {
 
     String generateEmployeeCode();
 
+    String generateBeneficiaryCode();
 }

@@ -105,6 +105,35 @@ public class SecurityConfig {
                                                                 HttpMethod.GET,
                                                                 "/api/customer/transactions")
                                                 .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/api/customer/beneficiaries")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.PUT,
+                                                                "/api/customer/beneficiaries/**")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.DELETE,
+                                                                "/api/customer/beneficiaries/**")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/api/customer/beneficiaries/transfer")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/api/customer/statements/mini/**")
+                                                .hasRole("CUSTOMER")
+
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/api/customer/statements/date-range")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/api/customer/statements/monthly")
+                                                .hasRole("CUSTOMER")
                                                 .anyRequest().authenticated())
 
                                 // Authentication Provider
