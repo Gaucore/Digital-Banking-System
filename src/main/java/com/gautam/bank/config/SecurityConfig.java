@@ -142,6 +142,14 @@ public class SecurityConfig {
                                                                 HttpMethod.POST,
                                                                 "/api/customer/statements/excel")
                                                 .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/api/customer/loans/apply")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/api/employee/loans/pending")
+                                                .hasRole("EMPLOYEE")
                                                 .anyRequest().authenticated())
 
                                 // Authentication Provider
