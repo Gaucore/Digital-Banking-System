@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gautam.bank.dto.request.loan.ApplyLoanRequest;
+import com.gautam.bank.dto.request.loan.ApproveLoanRequest;
 import com.gautam.bank.dto.response.loan.LoanResponse;
 import com.gautam.bank.entity.loan.Loan;
 import com.gautam.bank.service.LoanService;
@@ -35,6 +36,11 @@ public class EmployeeLoanController {
         return ResponseEntity.ok(response);
     }
 
-
+    @PostMapping("/approve")
+    public ResponseEntity<LoanResponse> approveLoan(@Valid @RequestBody ApproveLoanRequest request) {
+        LoanResponse response=loanService.approveLoan(request);        
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    
     
 }

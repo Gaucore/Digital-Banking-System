@@ -9,6 +9,7 @@ import org.hibernate.annotations.processing.SQL;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.gautam.bank.entity.auth.User;
 import com.gautam.bank.entity.employee.Employee;
 
 @Repository
@@ -23,6 +24,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByBranch(String branch);
 
     List<Employee> findByDesignation(String designation);
+
+    Optional<Employee> findByUser(User user);
 
     // A derived query method is a method whose SQL query is automatically generated
     // by Spring Data JPA based on the method name, such as findByEmail() or

@@ -8,7 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -61,6 +61,7 @@ public class SecurityConfig {
                         throws Exception {
 
                 http
+                                .cors(Customizer.withDefaults())
                                 // Disable CSRF
                                 .csrf(csrf -> csrf.disable())
 
@@ -70,7 +71,9 @@ public class SecurityConfig {
 
                                 // Authorization Rules
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/api/auth/**").permitAll()
+                                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                                .requestMatchers("/api/auth/**")
+                                                .permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/api/employees")
                                                 .hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.POST, "/api/customers")
@@ -149,6 +152,10 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 HttpMethod.GET,
                                                                 "/api/employee/loans/pending")
+                                                .hasRole("EMPLOYEE")
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/api/employee/loans/approve")
                                                 .hasRole("EMPLOYEE")
                                                 .anyRequest().authenticated())
 
