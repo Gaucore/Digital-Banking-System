@@ -83,6 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
 
                 return customerMapper.toResponse(customer);
         }
+        
 
         @Override
         @Transactional(readOnly = true)
@@ -231,44 +232,7 @@ public class CustomerServiceImpl implements CustomerService {
                                 .toList();
         }
 
-        // @Override
-        // @Transactional(readOnly = true)
-        // public List<CustomerTransactionResponse> getMyTransactions() {
-        // String username =
-        // SecurityContextHolder.getContext().getAuthentication().getName();
-        // User user = userRepository.findByUsername(username)
-        // .orElseThrow(() -> new ResourceNotFoundException("user not found."));
-        // Customer customer = customerRepository.findByUser(user)
-        // .orElseThrow(() -> new ResourceNotFoundException("customer not found."));
-        // List<Account> accounts = accountRepository.findByCustomer(customer);
-        // List<CustomerTransactionResponse> responses = new ArrayList<>();
-        // for (Account account : accounts) {
-        // List<Transaction> transactions =
-        // transactionRepository.findByAccountOrderByCreatedAtDesc(account);
-        // for (Transaction transaction : transactions) {
-        // responses.add(
-        // CustomerTransactionResponse.builder()
-        // .transactionNumber(transaction.getTransactionNumber())
-        // .transactionType(transaction.getTransactionType())
-        // .fromAccountNumber(
-        // transaction.getFromAccount() != null
-        // ? transaction.getFromAccount().getAccountNumber()
-        // : null)
-        // .toAccountNumber(
-        // transaction.getToAccount() != null
-        // ? transaction.getToAccount().getAccountNumber()
-        // : null)
-        // .amount(transaction.getAmount())
-        // .previousBalance(transaction.getPreviousBalance())
-        // .currentBalance(transaction.getCurrentBalance())
-        // .remarks(transaction.getRemarks())
-        // .transactionDate(transaction.getCreatedAt().toLocalDate())
-        // .build());
-        // }
-        // }
-
-        // return responses;
-        // }
+      
 
         @Override
         @Transactional(readOnly = true)
@@ -313,42 +277,7 @@ public class CustomerServiceImpl implements CustomerService {
 
                 List<CustomerTransactionResponse> responses = new ArrayList<>();
 
-                // ==========================================================
-                // STEP 4 : Only Return Logged-In Customer Transactions
-                // ==========================================================
-                // for (Transaction transaction : transactions) {
-
-                // Account account = transaction.getAccount();
-
-                // if (account == null
-                // || account.getCustomer() == null
-                // || !account.getCustomer().getId().equals(customer.getId())) {
-                // continue;
-                // }
-
-                // responses.add(
-                // CustomerTransactionResponse.builder()
-                // .transactionNumber(transaction.getTransactionNumber())
-                // .transactionType(transaction.getTransactionType())
-                // .fromAccountNumber(
-                // transaction.getFromAccount() != null
-                // ? transaction.getFromAccount()
-                // .getAccountNumber()
-                // : null)
-                // .toAccountNumber(
-                // transaction.getToAccount() != null
-                // ? transaction.getToAccount()
-                // .getAccountNumber()
-                // : null)
-                // .amount(transaction.getAmount())
-                // .previousBalance(transaction.getPreviousBalance())
-                // .currentBalance(transaction.getCurrentBalance())
-                // .remarks(transaction.getRemarks())
-                // .transactionDate(
-                // transaction.getCreatedAt().toLocalDate())
-                // .build());
-                // }
-
+               
                 for (Transaction transaction : transactions) {
 
                         responses.add(

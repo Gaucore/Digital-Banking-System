@@ -11,21 +11,28 @@ import org.springframework.stereotype.Service;
 
 import com.gautam.bank.dto.request.loan.ApplyLoanRequest;
 import com.gautam.bank.dto.request.loan.ApproveLoanRequest;
+import com.gautam.bank.dto.request.loan.DisburseLoanRequest;
 import com.gautam.bank.dto.request.loan.RejectLoanRequest;
 import com.gautam.bank.dto.response.loan.LoanResponse;
+import com.gautam.bank.entity.account.Account;
 import com.gautam.bank.entity.auth.User;
 import com.gautam.bank.entity.customer.Customer;
 import com.gautam.bank.entity.employee.Employee;
 import com.gautam.bank.entity.loan.Loan;
 import com.gautam.bank.entity.sequence.CodeSequence;
+import com.gautam.bank.entity.transaction.Transaction;
 import com.gautam.bank.enums.LoanStatus;
+import com.gautam.bank.enums.TransactionType;
 import com.gautam.bank.exception.ResourceNotFoundException;
+import com.gautam.bank.repository.AccountRepository;
 import com.gautam.bank.repository.CustomerRepository;
 import com.gautam.bank.repository.EmployeeRepository;
 import com.gautam.bank.repository.LoanRepository;
+import com.gautam.bank.repository.TransactionRepository;
 import com.gautam.bank.repository.UserRepository;
 import com.gautam.bank.service.CodeSequenceService;
 import com.gautam.bank.service.LoanService;
+import com.gautam.bank.util.loan.EmiCalculator;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +46,9 @@ public class LoanServiceImpl implements LoanService {
         private final UserRepository userRepository;
         private final CodeSequenceService codeSequenceService;
         private final EmployeeRepository employeeRepository;
+        private final EmiCalculator emiCalculator;
+        private final AccountRepository accountRepository;
+        private final TransactionRepository transactionRepository;
 
         @Override
         @Transactional
@@ -125,9 +135,13 @@ public class LoanServiceImpl implements LoanService {
                 Employee employee = employeeRepository.findByUser(user)
                                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found."));
 
-                BigDecimal emi = request.getApprovedAmount().divide(BigDecimal.valueOf(request.getTenureMonths()), 2,
-                                RoundingMode.HALF_UP);
+                // BigDecimal emi =
+                // request.getApprovedAmount().divide(BigDecimal.valueOf(request.getTenureMonths()),
+                // 2,
+                // RoundingMode.HALF_UP);
 
+                BigDecimal emi = emiCalculator.calcuate(request.getApprovedAmount(), request.getInterestRate(),
+                                request.getTenureMonths());
                 loan.setApprovedAmount(request.getApprovedAmount());
                 loan.setInterestRate(request.getInterestRate());
                 loan.setTenureMonths(request.getTenureMonths());
@@ -165,14 +179,57 @@ public class LoanServiceImpl implements LoanService {
                 Employee employee = employeeRepository.findByUser(user)
                                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found."));
 
-                                loan.setStatus(LoanStatus.REJECTED);
-                                loan.setRemarks(request.getRemarks());
-                                loan.setApprovedBy(employee);
-                                loan.setApprovedAt(LocalDateTime.now());
+                loan.setStatus(LoanStatus.REJECTED);
+                loan.setRemarks(request.getRemarks());
+                loan.setApprovedBy(employee);
+                loan.setApprovedAt(LocalDateTime.now());
 
-                                loan=loanRepository.save(loan);
+                loan = loanRepository.save(loan);
 
-                        
+                return mapToResponse(loan);
+        }
+
+        @Override
+        @Transactional
+        public LoanResponse disburseLoan(DisburseLoanRequest request) {
+                Loan loan = loanRepository.findByLoanNumber(request.getLoanNumber())
+                                .orElseThrow(() -> new ResourceNotFoundException("Loan not found."));
+
+                if (loan.getStatus() != LoanStatus.APPROVED) {
+                        throw new IllegalArgumentException("Only approval loans can be disbursed.");
+                }
+
+                Account account = accountRepository.findByAccountNumber(request.getAccountNumber())
+                                .orElseThrow(() -> new ResourceNotFoundException("Account not found."));
+
+                if (!account.getCustomer().getId().equals(loan.getCustomer().getId())) {
+                        throw new IllegalArgumentException("Loan and account belong to different customers.");
+                }
+
+                BigDecimal newBalance = account.getBalance().add(loan.getApprovedAmount());
+
+                account.setBalance(newBalance);
+
+                account = accountRepository.save(account);
+
+                // Create Transaction
+                Transaction transaction = Transaction.builder()
+                                .account(account)
+                                .transactionNumber(codeSequenceService.generateTransactionNumber())
+                                .transactionType(TransactionType.DEPOSIT)
+                                .amount(loan.getApprovedAmount())
+                                .previousBalance(newBalance.subtract(loan.getApprovedAmount()))
+                                .currentBalance(newBalance)
+                                .remarks("Loan Disbursement")
+                                .build();
+                transactionRepository.save(transaction);
+                // Update Loan
+                loan.setDisbursedAmount(loan.getApprovedAmount());
+                loan.setRemainingAmount(loan.getApprovedAmount());
+                loan.setStatus(LoanStatus.DISBURSED);
+                loan.setDisbursedAt(LocalDateTime.now());
+                loan = loanRepository.save(loan);
+
                 return mapToResponse(loan);
         }
 }

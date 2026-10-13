@@ -157,6 +157,10 @@ public class SecurityConfig {
                                                                 HttpMethod.POST,
                                                                 "/api/employee/loans/approve")
                                                 .hasRole("EMPLOYEE")
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/api/employee/loans/disburse")
+                                                .hasRole("EMPLOYEE")
                                                 .anyRequest().authenticated())
 
                                 // Authentication Provider
