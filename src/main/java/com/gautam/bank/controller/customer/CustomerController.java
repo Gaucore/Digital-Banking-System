@@ -26,45 +26,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-
-
-@RestController 
-@RequestMapping ("/api/customers")
-@RequiredArgsConstructor 
+@RestController
+@RequestMapping("/api/customers")
+@RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;
 
-
     @PostMapping
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerRequest request) {
-        CustomerResponse response =customerService.createCustomer(request);        
+        CustomerResponse response = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @GetMapping
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+        List<CustomerResponse> response = customerService.getAllCustomersData();
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/enable-internet-banking")
-    public ResponseEntity<InternetBankingResponse> enableInternetBanking(@Valid @RequestBody EnableInternetBankingRequest request) {
-        InternetBankingResponse response=customerService.enableInternetBanking(request);        
+    public ResponseEntity<InternetBankingResponse> enableInternetBanking(
+            @Valid @RequestBody EnableInternetBankingRequest request) {
+        InternetBankingResponse response = customerService.enableInternetBanking(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-    
+
     @GetMapping("/profile")
-    public ResponseEntity<CustomerProfileResponse> getMyProfile(){
-        CustomerProfileResponse response=customerService.getMyProfile();
+    public ResponseEntity<CustomerProfileResponse> getMyProfile() {
+        CustomerProfileResponse response = customerService.getMyProfile();
         return ResponseEntity.ok(response);
-    } 
+    }
 
     @GetMapping("/accounts")
     public ResponseEntity<List<CustomerAccountResponse>> getMyAccounts() {
-        List<CustomerAccountResponse> response= customerService.getMyAccounts();
+        List<CustomerAccountResponse> response = customerService.getMyAccounts();
         return ResponseEntity.ok(response);
     }
-    
+
     @GetMapping("/transactions")
-    public ResponseEntity<List<CustomerTransactionResponse>> getMyTransactions(@ModelAttribute TransactionFilterRequest request) {
-        List<CustomerTransactionResponse> response= customerService.getMyTransactions(request);
+    public ResponseEntity<List<CustomerTransactionResponse>> getMyTransactions(
+            @ModelAttribute TransactionFilterRequest request) {
+        List<CustomerTransactionResponse> response = customerService.getMyTransactions(request);
         return ResponseEntity.ok(response);
     }
-    
-    
+
 }

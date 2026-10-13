@@ -83,7 +83,17 @@ public class CustomerServiceImpl implements CustomerService {
 
                 return customerMapper.toResponse(customer);
         }
-        
+
+        @Override
+        @Transactional
+        public List<CustomerResponse> getAllCustomersData() {
+
+                List<Customer> customers = customerRepository.findAll();
+
+                return customers.stream()
+                                .map(customerMapper::toResponse)
+                                .toList();
+        }
 
         @Override
         @Transactional(readOnly = true)
@@ -232,8 +242,6 @@ public class CustomerServiceImpl implements CustomerService {
                                 .toList();
         }
 
-      
-
         @Override
         @Transactional(readOnly = true)
         public List<CustomerTransactionResponse> getMyTransactions(
@@ -277,7 +285,6 @@ public class CustomerServiceImpl implements CustomerService {
 
                 List<CustomerTransactionResponse> responses = new ArrayList<>();
 
-               
                 for (Transaction transaction : transactions) {
 
                         responses.add(

@@ -36,6 +36,6 @@ public interface CustomerService {
     List<CustomerAccountResponse> getMyAccounts();
 
     List<CustomerTransactionResponse> getMyTransactions(TransactionFilterRequest request);
-    
+    List<CustomerResponse> getAllCustomersData();
     
 }
