@@ -143,6 +143,13 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 
 ## Frontend
 
+- Angular
+- TypeScript
+- Bootstrap
+- HTML5
+- CSS3
+- AG Grid
+
 Angular
 TypeScript
 Bootstrap
