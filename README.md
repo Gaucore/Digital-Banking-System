@@ -126,28 +126,29 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 
 ## Backend
 
-- Java 21
-- Spring Boot
-- Spring MVC
-- Spring Data JPA
-- Hibernate
-- Spring Security
-- JWT
-- Maven
-- Lombok
-- Validation API
-- MySQL
+Java 21
+Spring Boot
+Spring MVC
+Spring Security
+Spring Data JPA
+Hibernate
+JWT
+Maven
+Lombok
+Validation API
+MapStruct
+MySQL
 
 ---
 
 ## Frontend
 
-- Angular
-- TypeScript
-- HTML
-- CSS
-- Bootstrap
-
+Angular
+TypeScript
+Bootstrap
+HTML5
+CSS3
+AG Grid
 ---
 
 ## Tools
