@@ -67,7 +67,6 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 ---
 
 # ✨ Key Features
-# ✨ Key Features
 
 ✔ JWT Authentication
 
@@ -219,6 +218,80 @@ Unlike traditional CRUD applications, this project focuses on business workflows
     • Dashboard
     • Loan Closure Certificate
 ---
+
+
+# 🚧 Upcoming Modules
+
+- Credit Card
+- Debit Card
+- UPI
+- QR Payments
+- Fixed Deposit
+- Recurring Deposit
+- KYC Module
+- ATM Module
+- SMS Notification
+- Email Notification
+- Audit Logs
+- PDF Statements
+- Branch Management
+
+## High-Level Banking Workflow
+                     Admin
+
+                        │
+
+                        ▼
+
+             Create Employee
+
+                        │
+
+                        ▼
+
+                Employee Login
+
+                        │
+
+                        ▼
+
+            Register Customer
+
+                        │
+
+                        ▼
+
+              Open Account
+
+                        │
+
+                        ▼
+
+      Deposit / Withdraw / Transfer
+
+                        │
+
+                        ▼
+
+          Beneficiary Management
+
+                        │
+
+                        ▼
+
+             Internet Banking
+
+                        │
+
+                        ▼
+
+             Loan Management
+
+                        │
+
+                        ▼
+
+          Dashboard & Reports
 
 # 👥 User Roles
 
