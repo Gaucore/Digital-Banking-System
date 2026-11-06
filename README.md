@@ -522,7 +522,7 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 
 ## Class Diagram (High Level)
 
-                +------------------+
+                        +------------------+
                 |      User        |
                 +------------------+
                 | id               |
