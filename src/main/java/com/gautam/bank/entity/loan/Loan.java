@@ -88,4 +88,7 @@ public class Loan extends BaseEntity {
 
     @Column(name = "disbursed_at")
     private LocalDateTime disbursedAt;
+
+    @Column (name = "closed_at")
+    private LocalDateTime closedAt;
 }

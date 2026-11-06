@@ -9,9 +9,12 @@ import com.gautam.bank.dto.response.account.CustomerAccountResponse;
 import com.gautam.bank.dto.response.customer.CustomerResponse;
 import com.gautam.bank.dto.response.customerProfile.CustomerProfileResponse;
 import com.gautam.bank.dto.response.enableBankingCustomer.InternetBankingResponse;
+import com.gautam.bank.dto.response.loan.LoanResponse;
 import com.gautam.bank.dto.response.transaction.CustomerTransactionResponse;
 import com.gautam.bank.dto.response.transaction.TransactionFilterRequest;
+import com.gautam.bank.enums.LoanStatus;
 import com.gautam.bank.service.CustomerService;
+import com.gautam.bank.service.LoanService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/customers")
@@ -32,6 +36,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class CustomerController {
 
     private final CustomerService customerService;
+    // private final LoanService loanService;
 
     @PostMapping
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerRequest request) {
@@ -70,5 +75,7 @@ public class CustomerController {
         List<CustomerTransactionResponse> response = customerService.getMyTransactions(request);
         return ResponseEntity.ok(response);
     }
+
+   
 
 }

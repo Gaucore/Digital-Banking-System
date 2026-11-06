@@ -165,6 +165,31 @@ public class SecurityConfig {
                                                                 HttpMethod.GET,
                                                                 "/api/customers")
                                                 .hasRole("EMPLOYEE")
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/api/customer/loans")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/api/employee/loans/**")
+                                                .hasRole("EMPLOYEE")
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/api/customer/loans/**")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/api/customer/loans/pay-emi")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/api/customer/loans/**")
+                                                .hasRole("CUSTOMER")
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/api/employee/loans/dashboard")
+                                                .hasRole("EMPLOYEE")
+                                                
                                                 .anyRequest().authenticated())
 
                                 // Authentication Provider
