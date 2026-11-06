@@ -51,27 +51,13 @@ A real-world banking system designed using enterprise software architecture and 
 
 ---
 
-# 📖 Project Overview
+## 📖 Overview
 
-The **Digital Banking Transaction System** is a full-stack banking application developed using **Spring Boot**, **Spring Security**, **JWT**, **Hibernate**, **MySQL**, and **Angular**.
+Digital Banking Transaction System is a full-stack enterprise banking application that simulates real-world banking operations.
 
-Unlike a basic CRUD application, this project follows enterprise software development principles such as:
+The project is developed to understand how modern banking software is designed in large organizations while following enterprise architecture, secure REST APIs, clean coding standards, layered architecture, SOLID principles, and modern software development practices.
 
-- Layered Architecture
-- DTO Pattern
-- Repository Pattern
-- Service Layer
-- Mapper Layer
-- Global Exception Handling
-- Validation
-- Transaction Management
-- Pessimistic Locking
-- JWT Authentication
-- Role-Based Authorization
-- Clean Code
-- SOLID Principles
-
-The application is designed to simulate real banking operations including customer management, account management, transactions, authentication, and reporting.
+Unlike traditional CRUD applications, this project focuses on business workflows, transaction consistency, security, scalability, and maintainability.
 
 ---
 
@@ -90,55 +76,49 @@ The application is designed to simulate real banking operations including custom
 
 ---
 
-# ✨ Features
+# ✨ Key Features
 
-## Customer Management
+✔ JWT Authentication
 
-- Register Customer
-- Update Customer
-- Delete Customer
-- View Customer
-- Search Customer
-- Customer List
+✔ Role-Based Authorization
 
----
+✔ Customer Management
 
-## Account Management
+✔ Employee Management
 
-- Open Account
-- Close Account
-- View Account
-- Search Account
-- Account Status
+✔ Account Management
 
----
+✔ Deposit Money
 
-## Banking Transactions
+✔ Withdraw Money
 
-- Deposit Money
-- Withdraw Money
-- Transfer Money
-- Balance Inquiry
-- Mini Statement
-- Transaction History
+✔ Fund Transfer
 
----
+✔ Beneficiary Management
 
-## Authentication
+✔ Loan Management
 
-- Login
-- JWT Authentication
-- Role-Based Authorization
-- Secure APIs
+✔ Loan Repayment
 
----
+✔ Dashboard & Analytics
 
-## Administration
+✔ Transaction History
 
-- Employee Management
-- Reports
-- Customer Monitoring
-- Transaction Monitoring
+✔ Internet Banking
+
+✔ Global Exception Handling
+
+✔ Validation
+
+✔ Enterprise DTO Pattern
+
+✔ Repository Pattern
+
+✔ Mapper Pattern
+
+✔ Transaction Management
+
+✔ Clean Architecture
 
 ---
 
