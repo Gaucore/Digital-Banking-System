@@ -1,8 +1,28 @@
 # 🏦 Digital Banking Transaction System
 
-An enterprise-level **Digital Banking Transaction System** built using **Spring Boot**, **MySQL**, and **Angular**. This project simulates the core functionalities of a real-world banking application while following clean architecture, enterprise coding standards, and industry best practices.
+<p align="center">
 
-The primary goal of this project is to understand how modern banking software is designed, developed, and maintained in large organizations.
+Enterprise Banking Application built using Spring Boot, Spring Security, JWT, MySQL and Angular.
+
+A real-world banking system designed using enterprise software architecture and industry best practices.
+
+</p>
+
+<p align="center">
+
+![Java](https://img.shields.io/badge/Java-21-orange)
+
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen)
+
+![Angular](https://img.shields.io/badge/Angular-20-red)
+
+![MySQL](https://img.shields.io/badge/MySQL-8-blue)
+
+![JWT](https://img.shields.io/badge/JWT-Security-yellow)
+
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
+</p>
 
 ---
 
