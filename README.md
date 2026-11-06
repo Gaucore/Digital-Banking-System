@@ -406,6 +406,163 @@ Unlike traditional CRUD applications, this project focuses on business workflows
     |          MySQL Database            |
     +------------------------------------+
 
+
+  ## Database Tables
+  
+- users
+- employees
+- customers
+- accounts
+- transactions
+- beneficiaries
+- loans
+- loan_repayments
+- code_sequence
+
+## Entity Relationships
+
+    User
+     │
+     │ 1
+     │
+     ├───────────────1 Employee
+     │
+     └───────────────1 Customer
+                          │
+                          │1
+                          │
+                          ▼
+                     Accounts
+                          │
+                          │1
+                          │
+                          ▼
+                   Transactions
+    
+    Customer
+        │
+        │1
+        │
+        ▼
+    Loans
+        │
+        │1
+        │
+        ▼
+    Loan Repayments
+    
+    Customer
+        │
+        ├────────────── Beneficiaries
+  
+  ## ER Diagram
+  
+  +-------------+
+  |    Users    |
+  +-------------+
+  | id          |
+  | username    |
+  | password    |
+  | role        |
+  +-------------+
+         │
+         │1
+         │
+   ┌─────┴─────────┐
+   │               │
+   ▼               ▼
+  
+  +-----------+   +--------------+
+  | Employee  |   |  Customer    |
+  +-----------+   +--------------+
+  | id        |   | id           |
+  | code      |   | code         |
+  | name      |   | first_name   |
+  +-----------+   +--------------+
+                      │
+                      │1
+                      ▼
+               +--------------+
+               |   Account    |
+               +--------------+
+               | account_no   |
+               | balance      |
+               | status       |
+               +--------------+
+                      │
+                      │1
+                      ▼
+              +----------------+
+              | Transaction    |
+              +----------------+
+              | txn_number     |
+              | amount         |
+              | type           |
+              +----------------+
+  
+  Customer
+      │
+      ▼
+  
+  +--------------+
+  | Loan         |
+  +--------------+
+  | loan_number  |
+  | amount       |
+  | status       |
+  +--------------+
+        │
+        ▼
+  +-------------------+
+  | Loan Repayment    |
+  +-------------------+
+  | installment_no    |
+  | amount            |
+  +-------------------+
+
+## Class Diagram (High Level)
+
+                +------------------+
+                |      User        |
+                +------------------+
+                | id               |
+                | username         |
+                | password         |
+                | role             |
+                +------------------+
+                   ▲            ▲
+                   │            │
+         +---------+            +-----------+
+         │                                  │
+
++--------------------+           +--------------------+
+| Employee           |           | Customer           |
++--------------------+           +--------------------+
+| employeeCode       |           | customerCode       |
+| firstName          |           | firstName          |
+| lastName           |           | lastName           |
++--------------------+           +--------------------+
+                                         │
+                                         │1
+                                         ▼
+                               +-------------------+
+                               | Account           |
+                               +-------------------+
+                               | accountNumber     |
+                               | balance           |
+                               | status            |
+                               +-------------------+
+                                         │
+                                         ▼
+                               +-------------------+
+                               | Transaction       |
+                               +-------------------+
+                               | transactionNo     |
+                               | amount            |
+                               +-------------------+
+
+
+
 # 👥 User Roles
 
 ## 👨‍💼 Admin
