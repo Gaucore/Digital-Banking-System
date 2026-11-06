@@ -1,25 +1,16 @@
 # 🏦 Digital Banking Transaction System
 
 <p align="center">
-
 Enterprise Banking Application built using Spring Boot, Spring Security, JWT, MySQL and Angular.
-
 A real-world banking system designed using enterprise software architecture and industry best practices.
-
 </p>
 
 <p align="center">
-
 ![Java](https://img.shields.io/badge/Java-21-orange)
-
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen)
-
 ![Angular](https://img.shields.io/badge/Angular-20-red)
-
 ![MySQL](https://img.shields.io/badge/MySQL-8-blue)
-
 ![JWT](https://img.shields.io/badge/JWT-Security-yellow)
-
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 </p>
@@ -77,47 +68,26 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 ---
 
 # ✨ Key Features
-
 ✔ JWT Authentication
-
 ✔ Role-Based Authorization
-
 ✔ Customer Management
-
 ✔ Employee Management
-
 ✔ Account Management
-
 ✔ Deposit Money
-
 ✔ Withdraw Money
-
 ✔ Fund Transfer
-
 ✔ Beneficiary Management
-
 ✔ Loan Management
-
 ✔ Loan Repayment
-
 ✔ Dashboard & Analytics
-
 ✔ Transaction History
-
 ✔ Internet Banking
-
 ✔ Global Exception Handling
-
 ✔ Validation
-
 ✔ Enterprise DTO Pattern
-
 ✔ Repository Pattern
-
 ✔ Mapper Pattern
-
 ✔ Transaction Management
-
 ✔ Clean Architecture
 
 ---
@@ -186,58 +156,47 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 
 ---
 
-# 📂 Project Structure
+## 🚀 Enterprise Highlights
 
-```
-src
-└── main
-    ├── java
-    │   └── com
-    │       └── gautam
-    │           └── bank
-    │
-    │               ├── config
-    │               ├── controller
-    │               │
-    │               ├── dto
-    │               │   ├── request
-    │               │   └── response
-    │               │
-    │               ├── entity
-    │               │   ├── account
-    │               │   ├── customer
-    │               │   ├── transaction
-    │               │   ├── user
-    │               │   └── sequence
-    │               │
-    │               ├── enums
-    │               ├── exception
-    │               ├── mapper
-    │               ├── repository
-    │               ├── security
-    │               ├── service
-    │               │   └── impl
-    │               ├── util
-    │               │
-    │               └── DigitalBankingApplication.java
-    │
-    └── resources
-        ├── application.properties
-        └── static
-```
-
+- Layered Architecture
+- SOLID Principles
+- Clean Code
+- DTO Pattern
+- Repository Pattern
+- Mapper Pattern
+- Global Exception Handling
+- Validation
+- JWT Authentication
+- Role-Based Security
+- Transaction Management
+- Code Sequence Generator
+- Pessimistic Locking
+- Modular Design
+- Reusable Components
 ---
 
-# 🗄 Database Modules
+# 📦 Completed Modules
 
-| Module | Description |
-|----------|------------|
-| Users | Authentication users |
-| Customers | Customer information |
-| Accounts | Bank accounts |
-| Transactions | Banking transactions |
-| Code Sequences | Auto-generated codes |
-
+✅ Authentication Module
+✅ User Management
+✅ Employee Management
+✅ Customer Management
+✅ Account Management
+✅ Deposit Module
+✅ Withdraw Module
+✅ Fund Transfer
+✅ Beneficiary Management
+✅ Internet Banking
+✅ Loan Management
+    • Apply Loan
+    • Approve Loan
+    • Reject Loan
+    • EMI Calculator
+    • Loan Disbursement
+    • Loan Repayment
+    • Repayment History
+    • Dashboard
+    • Loan Closure Certificate
 ---
 
 # 👥 User Roles
