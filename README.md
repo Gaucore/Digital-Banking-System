@@ -1,44 +1,43 @@
 # 🏦 Digital Banking Transaction System
 
 <p align="center">
+
 Enterprise Banking Application built using Spring Boot, Spring Security, JWT, MySQL and Angular.
+
 A real-world banking system designed using enterprise software architecture and industry best practices.
+
 </p>
 
 <p align="center">
+
 ![Java](https://img.shields.io/badge/Java-21-orange)
+
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen)
+
 ![Angular](https://img.shields.io/badge/Angular-20-red)
+
 ![MySQL](https://img.shields.io/badge/MySQL-8-blue)
+
 ![JWT](https://img.shields.io/badge/JWT-Security-yellow)
+
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 </p>
 
----
+--
 
 # 📌 Table of Contents
 
-- Project Overview
-- Project Goals
-- Features
-- Technology Stack
-- System Architecture
-- Project Structure
-- Database Design
-- User Roles
-- Business Workflows
-- API Modules
-- Enterprise Practices
-- Getting Started
-- Installation
-- Configuration
-- Running the Project
-- Future Enhancements
-- Learning Outcomes
-- Current Progress
-- Screenshots
-- Author
+1. Project Banner
+2. About Project
+3. Features
+4. Technology Stack
+5. Software Architecture
+6. Project Goals
+7. Project Highlights
+8. Enterprise Features
+9. Module Overview
+10. Architecture Diagram
 
 ---
 
@@ -68,26 +67,48 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 ---
 
 # ✨ Key Features
+# ✨ Key Features
+
 ✔ JWT Authentication
+
 ✔ Role-Based Authorization
+
 ✔ Customer Management
+
 ✔ Employee Management
+
 ✔ Account Management
+
 ✔ Deposit Money
+
 ✔ Withdraw Money
+
 ✔ Fund Transfer
+
 ✔ Beneficiary Management
+
 ✔ Loan Management
+
 ✔ Loan Repayment
+
 ✔ Dashboard & Analytics
+
 ✔ Transaction History
+
 ✔ Internet Banking
+
 ✔ Global Exception Handling
+
 ✔ Validation
+
 ✔ Enterprise DTO Pattern
+
 ✔ Repository Pattern
+
 ✔ Mapper Pattern
+
 ✔ Transaction Management
+
 ✔ Clean Architecture
 
 ---
