@@ -456,69 +456,66 @@ Unlike traditional CRUD applications, this project focuses on business workflows
         ├────────────── Beneficiaries
   
   ## ER Diagram
-  
-  +-------------+
-  |    Users    |
-  +-------------+
-  | id          |
-  | username    |
-  | password    |
-  | role        |
-  +-------------+
-         │
-         │1
-         │
-   ┌─────┴─────────┐
-   │               │
-   ▼               ▼
-  
-  +-----------+   +--------------+
-  | Employee  |   |  Customer    |
-  +-----------+   +--------------+
-  | id        |   | id           |
-  | code      |   | code         |
-  | name      |   | first_name   |
-  +-----------+   +--------------+
-                      │
-                      │1
-                      ▼
-               +--------------+
-               |   Account    |
-               +--------------+
-               | account_no   |
-               | balance      |
-               | status       |
-               +--------------+
-                      │
-                      │1
-                      ▼
-              +----------------+
-              | Transaction    |
-              +----------------+
-              | txn_number     |
-              | amount         |
-              | type           |
-              +----------------+
-  
-  Customer
-      │
-      ▼
-  
-  +--------------+
-  | Loan         |
-  +--------------+
-  | loan_number  |
-  | amount       |
-  | status       |
-  +--------------+
-        │
-        ▼
-  +-------------------+
-  | Loan Repayment    |
-  +-------------------+
-  | installment_no    |
-  | amount            |
-  +-------------------+
+
+```mermaid
+erDiagram
+
+    USER ||--|| EMPLOYEE : "is"
+    USER ||--|| CUSTOMER : "is"
+
+    CUSTOMER ||--o{ ACCOUNT : owns
+    ACCOUNT ||--o{ TRANSACTION : contains
+    CUSTOMER ||--o{ LOAN : applies
+    LOAN ||--o{ LOAN_REPAYMENT : has
+
+    USER {
+        Long id
+        String username
+        String password
+        String role
+    }
+
+    EMPLOYEE {
+        Long id
+        String employeeCode
+        String firstName
+        String lastName
+    }
+
+    CUSTOMER {
+        Long id
+        String customerCode
+        String firstName
+        String lastName
+    }
+
+    ACCOUNT {
+        Long id
+        String accountNumber
+        Double balance
+        String status
+    }
+
+    TRANSACTION {
+        Long id
+        String transactionNo
+        Double amount
+        String type
+    }
+
+    LOAN {
+        Long id
+        String loanNumber
+        Double amount
+        String status
+    }
+
+    LOAN_REPAYMENT {
+        Long id
+        String installmentNo
+        Double amount
+    }
+```
 
 ## Class Diagram (High Level)
 
