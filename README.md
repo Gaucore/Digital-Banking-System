@@ -198,26 +198,44 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 # 📦 Completed Modules
 
 ✅ Authentication Module
+
 ✅ User Management
+
 ✅ Employee Management
+
 ✅ Customer Management
+
 ✅ Account Management
+
 ✅ Deposit Module
+
 ✅ Withdraw Module
+
 ✅ Fund Transfer
+
 ✅ Beneficiary Management
+
 ✅ Internet Banking
+
 ✅ Loan Management
+
     • Apply Loan
+
     • Approve Loan
+
     • Reject Loan
+
     • EMI Calculator
+
     • Loan Disbursement
+
     • Loan Repayment
+
     • Repayment History
+
     • Dashboard
+
     • Loan Closure Certificate
----
 
 
 # 🚧 Upcoming Modules
