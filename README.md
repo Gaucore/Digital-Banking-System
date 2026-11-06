@@ -150,12 +150,7 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 - CSS3
 - AG Grid
 
-Angular
-TypeScript
-Bootstrap
-HTML5
-CSS3
-AG Grid
+
 ---
 
 ## Tools
@@ -171,22 +166,22 @@ AG Grid
 # 🏛 System Architecture
 
 ```
-                Angular Frontend
-                        │
-                        ▼
-                REST Controllers
-                        │
-                        ▼
-                 Service Layer
-                        │
-                        ▼
-                  Mapper Layer
-                        │
-                        ▼
-               Repository Layer
-                        │
-                        ▼
-                    MySQL Database
+               Angular UI
+                      │
+                      ▼
+          REST Controllers
+                      │
+                      ▼
+             Service Layer
+                      │
+                      ▼
+              Mapper Layer
+                      │
+                      ▼
+          Repository Layer
+                      │
+                      ▼
+            MySQL Database
 ```
 
 ---
