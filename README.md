@@ -61,17 +61,17 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 
 ---
 
-# 🎯 Project Goals
+## 🎯 Project Goals
 
 - Build a real-world banking application
-- Learn enterprise Spring Boot architecture
-- Implement secure REST APIs
-- Understand banking business workflows
-- Practice database relationships
-- Integrate Angular with Spring Boot
-- Follow Clean Code principles
-- Apply SOLID Principles
-- Improve backend development skills
+- Learn enterprise backend development
+- Master Spring Boot architecture
+- Understand banking business logic
+- Implement secure authentication
+- Build scalable REST APIs
+- Follow Clean Architecture
+- Learn transaction management
+- Understand enterprise design patterns
 - Prepare for Software Engineer interviews
 
 ---
