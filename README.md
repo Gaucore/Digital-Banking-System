@@ -316,61 +316,61 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 
 --
 
-Digital-Banking-System
-│
-├── backend
-│   ├── src
-│   │   ├── main
-│   │   │   ├── java
-│   │   │   │
-│   │   │   └── com
-│   │   │       └── gautam
-│   │   │           └── bank
-│   │   │
-│   │   │               ├── config
-│   │   │               ├── controller
-│   │   │               │
-│   │   │               ├── dto
-│   │   │               │    ├── request
-│   │   │               │    └── response
-│   │   │               │
-│   │   │               ├── entity
-│   │   │               │
-│   │   │               ├── repository
-│   │   │               ├── service
-│   │   │               │      └── impl
-│   │   │               ├── mapper
-│   │   │               ├── security
-│   │   │               ├── util
-│   │   │               ├── enums
-│   │   │               ├── exception
-│   │   │               ├── validator
-│   │   │               ├── scheduler
-│   │   │               └── DigitalBankingApplication.java
-│   │   │
-│   │   └── resources
-│   │       ├── application.properties
-│   │       ├── static
-│   │       └── templates
-│   │
-│   └── pom.xml
-│
-├── frontend
-│   ├── src
-│   ├── angular.json
-│   ├── package.json
-│   └── tsconfig.json
-│
-├── database
-│   ├── schema.sql
-│   └── sample-data.sql
-│
-├── docs
-│   ├── diagrams
-│   ├── api
-│   └── screenshots
-│
-└── README.md
+    Digital-Banking-System
+    │
+    ├── backend
+    │   ├── src
+    │   │   ├── main
+    │   │   │   ├── java
+    │   │   │   │
+    │   │   │   └── com
+    │   │   │       └── gautam
+    │   │   │           └── bank
+    │   │   │
+    │   │   │               ├── config
+    │   │   │               ├── controller
+    │   │   │               │
+    │   │   │               ├── dto
+    │   │   │               │    ├── request
+    │   │   │               │    └── response
+    │   │   │               │
+    │   │   │               ├── entity
+    │   │   │               │
+    │   │   │               ├── repository
+    │   │   │               ├── service
+    │   │   │               │      └── impl
+    │   │   │               ├── mapper
+    │   │   │               ├── security
+    │   │   │               ├── util
+    │   │   │               ├── enums
+    │   │   │               ├── exception
+    │   │   │               ├── validator
+    │   │   │               ├── scheduler
+    │   │   │               └── DigitalBankingApplication.java
+    │   │   │
+    │   │   └── resources
+    │   │       ├── application.properties
+    │   │       ├── static
+    │   │       └── templates
+    │   │
+    │   └── pom.xml
+    │
+    ├── frontend
+    │   ├── src
+    │   ├── angular.json
+    │   ├── package.json
+    │   └── tsconfig.json
+    │
+    ├── database
+    │   ├── schema.sql
+    │   └── sample-data.sql
+    │
+    ├── docs
+    │   ├── diagrams
+    │   ├── api
+    │   └── screenshots
+    │
+    └── README.md
 
 --
 
