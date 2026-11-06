@@ -314,6 +314,8 @@ Unlike traditional CRUD applications, this project focuses on business workflows
 
 ## Complete Project Structure
 
+--
+
 Digital-Banking-System
 │
 ├── backend
@@ -369,6 +371,8 @@ Digital-Banking-System
 │   └── screenshots
 │
 └── README.md
+
+--
 
 # 👥 User Roles
 
