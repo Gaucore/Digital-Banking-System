@@ -1,0 +1,133 @@
+[33mcommit d6689ffec2e0a3c6a03a91dda166f6f141db91d9[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:17:14 2026 +0530
+
+    Update ER diagram to mermaid format
+    
+    Removed ER diagram and replaced it with a mermaid diagram representation.
+
+[33mcommit 30d31d59c18e6171f129c65423cf48af8812ee64[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:14:41 2026 +0530
+
+    Fix formatting in class diagram section of README
+
+[33mcommit 9940fca957b7c982f8c4f3a3969e88fdb1cf9814[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:11:56 2026 +0530
+
+    Update README with database and ER diagram details
+    
+    Expanded the database tables and entity relationships section with detailed descriptions and diagrams.
+
+[33mcommit 30a25ba3f67e5b211870d6322828f8f715e18665[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:08:26 2026 +0530
+
+    Add Layered Architecture section to README
+    
+    Added a section describing the layered architecture of the application.
+
+[33mcommit c062a4d580a0fbb582d1d95bcf3c8ddf41020e37[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:06:18 2026 +0530
+
+    Revise project structure in README
+    
+    Updated project structure in README to reflect current organization.
+
+[33mcommit 599ceed151c1d76edc3b2f80f6feb30f46f020df[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:05:57 2026 +0530
+
+    Update README.md with project structure details
+
+[33mcommit 0b28992a8ab03fbc2d9585736cbb82ba9d0d8301[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:05:10 2026 +0530
+
+    Update README with complete project structure
+    
+    Added complete project structure to the README file.
+
+[33mcommit 36fe3a4864393a89875780c801a4a4f0e5d20d8e[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:03:16 2026 +0530
+
+    Update README with completed modules list
+    
+    Added completed modules section with various features.
+
+[33mcommit 67c7691133587db9e18cf221408f2b1a33d226df[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:02:42 2026 +0530
+
+    Enhance README with upcoming modules and workflow
+    
+    Added upcoming modules and high-level banking workflow to README.
+
+[33mcommit 80ce44c579552b695fc430ae5b7336c0e136cbbf[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 18:01:04 2026 +0530
+
+    Revise README structure and enhance key features section
+    
+    Updated the README file to improve structure and clarity.
+
+[33mcommit 83f974bd9b2be2c8888a79e2e82e6f74200dd633[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 17:59:32 2026 +0530
+
+    Revise README with new project highlights and features
+    
+    Updated README to enhance project description and features.
+
+[33mcommit 3a994513e76b65e34bbca10407337890feec9713[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 17:57:07 2026 +0530
+
+    Revise project goals in README
+    
+    Updated project goals to reflect a focus on enterprise backend development and Clean Architecture principles.
+
+[33mcommit 9d53af715b2e49f71c95420e38aaeea7c2d8a8f5[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 17:56:27 2026 +0530
+
+    Refactor README to clean up technologies and architecture
+    
+    Removed duplicate technologies from the list and updated system architecture diagram.
+
+[33mcommit 5cb993ae3f033de3aaf2d11bef1822879eb45f19[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 17:55:00 2026 +0530
+
+    Fix formatting in Frontend section of README
+
+[33mcommit 1dc41b88058186049eb3aa7cc75b6a1f866c934a[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 17:53:53 2026 +0530
+
+    Fix formatting of technology stack in README
+
+[33mcommit 55abfe3077470650d9ec35face03c1ff1360825e[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 17:52:35 2026 +0530
+
+    Update technology stack in README.md
+
+[33mcommit 9e36b5f0aa42a86a0c6681c5668e57bfb5d51082[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 17:50:42 2026 +0530
+
+    Revise README for improved project overview and features
+    
+    Updated project overview and features sections for clarity and conciseness.
+
+[33mcommit 1e9960507d8536db55513443d7193983541e6597[m
+Author: Gautam Gaud <gautam788gaud@gmail.com>
+Date:   Fri Nov 6 17:49:33 2026 +0530
+
+    Enhance README with project details
+    
+    Updated project description and added badges for technologies used.
