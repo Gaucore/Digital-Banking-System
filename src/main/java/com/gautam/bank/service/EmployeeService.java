@@ -6,4 +6,6 @@ import com.gautam.bank.dto.response.employee.EmployeeResponse;
 public interface EmployeeService {
 
     EmployeeResponse createEmployee(CreateEmployeeRequest request);
+
+    EmployeeResponse getProfile();
 }

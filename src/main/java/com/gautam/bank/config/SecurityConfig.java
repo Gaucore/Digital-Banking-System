@@ -80,6 +80,8 @@ public class SecurityConfig {
                                                 .hasRole("EMPLOYEE")
                                                 .requestMatchers(HttpMethod.POST, "/api/accounts")
                                                 .hasRole("EMPLOYEE")
+                                                .requestMatchers(HttpMethod.GET, "/api/accounts")
+                                                .hasRole("EMPLOYEE")
                                                 .requestMatchers(
                                                                 HttpMethod.POST,
                                                                 "/api/transactions/deposit")
@@ -189,7 +191,7 @@ public class SecurityConfig {
                                                                 HttpMethod.GET,
                                                                 "/api/employee/loans/dashboard")
                                                 .hasRole("EMPLOYEE")
-                                                
+
                                                 .anyRequest().authenticated())
 
                                 // Authentication Provider

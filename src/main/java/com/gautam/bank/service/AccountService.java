@@ -15,4 +15,6 @@ public interface AccountService {
 
     // void closeAccount(String accountNumber);
 
+    List<AccountResponse> getAllAccounts();
+
 }

@@ -1,6 +1,7 @@
 package com.gautam.bank.entity.loan;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.gautam.bank.entity.BaseEntity;
@@ -32,11 +33,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder 
+@Builder
 public class Loan extends BaseEntity {
 
-
-    @Id 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -89,6 +89,9 @@ public class Loan extends BaseEntity {
     @Column(name = "disbursed_at")
     private LocalDateTime disbursedAt;
 
-    @Column (name = "closed_at")
+    @Column(name = "closed_at")
     private LocalDateTime closedAt;
+
+    @Column(name = "applied_date")
+    private LocalDate appliedDate;
 }

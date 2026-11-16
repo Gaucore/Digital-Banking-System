@@ -36,7 +36,9 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-   
-   
-
+    @GetMapping("/profile")
+    public ResponseEntity<EmployeeResponse> getProfile() {
+        EmployeeResponse response = employeeService.getProfile();
+        return ResponseEntity.ok(response);
+    }
 }

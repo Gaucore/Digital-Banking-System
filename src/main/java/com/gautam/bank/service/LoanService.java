@@ -6,6 +6,7 @@ import com.gautam.bank.dto.request.loan.ApplyLoanRequest;
 import com.gautam.bank.dto.request.loan.ApproveLoanRequest;
 import com.gautam.bank.dto.request.loan.DisburseLoanRequest;
 import com.gautam.bank.dto.request.loan.PayEmiRequest;
+import com.gautam.bank.dto.request.loan.PreCloseLoanRequest;
 import com.gautam.bank.dto.request.loan.RejectLoanRequest;
 import com.gautam.bank.dto.response.loan.LoanClosureCertificateResponse;
 import com.gautam.bank.dto.response.loan.LoanDashboardResponse;
@@ -40,4 +41,6 @@ public interface LoanService {
     LoanDashboardResponse getDashboard();
 
     LoanClosureCertificateResponse getClosureCertificate(String loanNumber);
+
+    LoanResponse preCloseLoan(PreCloseLoanRequest request);
 }

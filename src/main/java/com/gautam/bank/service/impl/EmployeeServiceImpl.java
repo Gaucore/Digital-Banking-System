@@ -2,7 +2,9 @@ package com.gautam.bank.service.impl;
 
 import java.time.LocalDate;
 
+import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.context.support.BeanDefinitionDsl.Role;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import com.gautam.bank.entity.employee.Employee;
 import com.gautam.bank.enums.UserRole;
 import com.gautam.bank.enums.UserStatus;
 import com.gautam.bank.exception.DuplicateResourceException;
+import com.gautam.bank.exception.ResourceNotFoundException;
 import com.gautam.bank.mapper.EmployeeMapper;
 import com.gautam.bank.repository.EmployeeRepository;
 import com.gautam.bank.repository.UserRepository;
@@ -70,5 +73,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employeeMapper.toResponse(saveEmployee);
     }
+
+    @Override
+    public EmployeeResponse getProfile() {
+
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Employee employee = employeeRepository
+                .findByUserUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found."));
+
+        return employeeMapper.toResponse(employee);
+    }
+
+  
 
 }

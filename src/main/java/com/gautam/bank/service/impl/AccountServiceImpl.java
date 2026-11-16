@@ -1,6 +1,7 @@
 package com.gautam.bank.service.impl;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,10 @@ public class AccountServiceImpl implements AccountService {
         account.setAccountNumber(codeSequenceService.generateAccountNumber());
         Account savedAccount = accountRepository.save(account);
         return accountMapper.toResponse(savedAccount);
+    }
+
+    @Override 
+    public List<AccountResponse> getAllAccounts(){
+        return accountRepository.findAll().stream().map(accountMapper::toResponse).toList();
     }
 }

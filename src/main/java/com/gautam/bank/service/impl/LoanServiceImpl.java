@@ -15,11 +15,13 @@ import com.gautam.bank.dto.request.loan.ApplyLoanRequest;
 import com.gautam.bank.dto.request.loan.ApproveLoanRequest;
 import com.gautam.bank.dto.request.loan.DisburseLoanRequest;
 import com.gautam.bank.dto.request.loan.PayEmiRequest;
+import com.gautam.bank.dto.request.loan.PreCloseLoanRequest;
 import com.gautam.bank.dto.request.loan.RejectLoanRequest;
 import com.gautam.bank.dto.response.loan.LoanClosureCertificateResponse;
 import com.gautam.bank.dto.response.loan.LoanDashboardResponse;
 import com.gautam.bank.dto.response.loan.LoanRepaymentResponse;
 import com.gautam.bank.dto.response.loan.LoanResponse;
+import com.gautam.bank.dto.response.loan.PendingLoanResponse;
 import com.gautam.bank.entity.account.Account;
 import com.gautam.bank.entity.auth.User;
 import com.gautam.bank.entity.customer.Customer;
@@ -59,8 +61,6 @@ public class LoanServiceImpl implements LoanService {
         private final AccountRepository accountRepository;
         private final TransactionRepository transactionRepository;
         private final LoanRepaymentRepository repaymentRepository;
-
-    
 
         @Override
         @Transactional
@@ -408,16 +408,65 @@ public class LoanServiceImpl implements LoanService {
         @Override
         @Transactional(readOnly = true)
         public LoanDashboardResponse getDashboard() {
+                List<PendingLoanResponse> pendingLoans = loanRepository
+                                .findTop10ByStatusOrderByCreatedAtDesc(LoanStatus.PENDING)
+                                .stream()
+                                .map(this::mapPendingLoan)
+                                .toList();
+
+                List<PendingLoanResponse> approvedLoans = loanRepository
+                                .findTop10ByStatusOrderByCreatedAtDesc(LoanStatus.APPROVED)
+                                .stream()
+                                .map(this::mapPendingLoan)
+                                .toList();
+
+                List<PendingLoanResponse> rejectedLoans = loanRepository
+                                .findTop10ByStatusOrderByCreatedAtDesc(LoanStatus.REJECTED)
+                                .stream()
+                                .map(this::mapPendingLoan)
+                                .toList();
+
                 return LoanDashboardResponse.builder()
+
                                 .totalLoans(loanRepository.count())
                                 .pendingLoans(loanRepository.countByStatus(LoanStatus.PENDING))
                                 .approvedLoans(loanRepository.countByStatus(LoanStatus.APPROVED))
+                                .rejectedLoans(loanRepository.countByStatus(LoanStatus.REJECTED))
                                 .disbursedLoans(loanRepository.countByStatus(LoanStatus.DISBURSED))
                                 .closedLoans(loanRepository.countByStatus(LoanStatus.CLOSED))
-                                .totalRequestedAmount(loanRepository.getTotalRequestedAmount())
-                                .totalApprovedAmount(loanRepository.getTotalApprovedAmount())
-                                .totalDisbursedAmount(loanRepository.getTotalDisbursedAmount())
-                                .outstandingAmount(loanRepository.getOutstandingAmount())
+
+                                .totalRequestedAmount(defaultAmount(loanRepository.getTotalRequestedAmount()))
+                                .totalApprovedAmount(defaultAmount(loanRepository.getTotalApprovedAmount()))
+                                .totalDisbursedAmount(defaultAmount(loanRepository.getTotalDisbursedAmount()))
+                                .outstandingAmount(defaultAmount(loanRepository.getOutstandingAmount()))
+
+                                .pendingLoanApplications(pendingLoans)
+                                .approvedLoanApplications(approvedLoans)
+                                .rejectedLoanApplications(rejectedLoans)
+
+                                .build();
+        }
+
+        private BigDecimal defaultAmount(BigDecimal amount) {
+                return amount == null ? BigDecimal.ZERO : amount;
+        }
+
+        private PendingLoanResponse mapPendingLoan(Loan loan) {
+
+                return PendingLoanResponse.builder()
+                                .loanId(loan.getId())
+                                .loanNumber(loan.getLoanNumber())
+                                .customerCode(loan.getCustomer().getCustomerCode())
+                                .customerName(
+                                                loan.getCustomer().getFirstName() + " " +
+                                                                loan.getCustomer().getLastName())
+                                .loanType(loan.getLoanType().name())
+                                .requestedAmount(loan.getLoanAmount())
+                                .interestRate(loan.getInterestRate())
+                                .tenure(loan.getTenureMonths())
+                                .branch(loan.getCustomer().getBranch())
+                                .appliedDate(loan.getCreatedAt().toLocalDate())
+                                .status(loan.getStatus())
                                 .build();
         }
 
@@ -447,5 +496,81 @@ public class LoanServiceImpl implements LoanService {
                                 .closedAt(loan.getClosedAt())
                                 .certificateMessage("No outstanding dues. Loan successfully closed.")
                                 .build();
+        }
+
+        @Override
+        @Transactional
+        public LoanResponse preCloseLoan(PreCloseLoanRequest request) {
+
+                // Find Loan
+                Loan loan = loanRepository
+                                .findByLoanNumber(request.getLoanNumber())
+                                .orElseThrow(() -> new ResourceNotFoundException("Loan not found."));
+
+                // Loan must be disbursed
+                if (loan.getStatus() != LoanStatus.DISBURSED) {
+                        throw new IllegalStateException("Loan is not active.");
+                }
+
+                // Find Account
+                Account account = accountRepository
+                                .findByAccountNumber(request.getAccountNumber())
+                                .orElseThrow(() -> new ResourceNotFoundException("Account not found."));
+
+                // Validate customer ownership
+                if (!loan.getCustomer().getId()
+                                .equals(account.getCustomer().getId())) {
+
+                        throw new IllegalStateException(
+                                        "Loan and account belong to different customers.");
+                }
+
+                // Remaining amount
+                BigDecimal remainingAmount = loan.getRemainingAmount();
+
+                // Balance validation
+                if (account.getBalance().compareTo(remainingAmount) < 0) {
+                        throw new IllegalStateException("Insufficient balance.");
+                }
+
+                // Store previous balance
+                BigDecimal previousBalance = account.getBalance();
+
+                // Debit account
+                account.setBalance(previousBalance.subtract(remainingAmount));
+                accountRepository.save(account);
+
+                // Create repayment history
+                LoanRepayment repayment = LoanRepayment.builder()
+                                .loan(loan)
+                                .amount(remainingAmount)
+                                .installmentNumber(
+                                                (int) repaymentRepository.countByLoan(loan) + 1)
+                                .paymentDate(LocalDateTime.now())
+                                .build();
+
+                repaymentRepository.save(repayment);
+
+                // Create transaction
+                Transaction transaction = Transaction.builder()
+                                .transactionNumber(codeSequenceService.generateTransactionNumber())
+                                .account(account)
+                                .transactionType(TransactionType.LOAN_REPAYMENT)
+                                .amount(remainingAmount)
+                                .previousBalance(previousBalance)
+                                .currentBalance(account.getBalance())
+                                .remarks("Loan Pre Closure")
+                                .build();
+
+                transactionRepository.save(transaction);
+
+                // Close loan
+                loan.setRemainingAmount(BigDecimal.ZERO);
+                loan.setStatus(LoanStatus.CLOSED);
+                loan.setClosedAt(LocalDateTime.now());
+
+                loanRepository.save(loan);
+
+                return mapToResponse(loan);
         }
 }

@@ -27,6 +27,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Optional<Employee> findByUser(User user);
 
+    Optional<Employee> findByUserUsername(String username);
+
     // A derived query method is a method whose SQL query is automatically generated
     // by Spring Data JPA based on the method name, such as findByEmail() or
     // existsByMobileNumber

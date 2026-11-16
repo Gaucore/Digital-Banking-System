@@ -1,6 +1,7 @@
 package com.gautam.bank.dto.response.loan;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +26,8 @@ public class LoanDashboardResponse {
     private BigDecimal totalApprovedAmount;
     private BigDecimal totalDisbursedAmount;
     private BigDecimal outstandingAmount;
+    private List<PendingLoanResponse> pendingLoanApplications;
+    private List<PendingLoanResponse> approvedLoanApplications;
+    private List<PendingLoanResponse> rejectedLoanApplications;
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gautam.bank.dto.request.loan.ApplyLoanRequest;
 import com.gautam.bank.dto.request.loan.PayEmiRequest;
+import com.gautam.bank.dto.request.loan.PreCloseLoanRequest;
 import com.gautam.bank.dto.response.loan.LoanClosureCertificateResponse;
 import com.gautam.bank.dto.response.loan.LoanRepaymentResponse;
 import com.gautam.bank.dto.response.loan.LoanResponse;
@@ -70,6 +71,12 @@ public class LoanController {
     @GetMapping("/{loanNumber}/closure-certificate")
     public ResponseEntity<LoanClosureCertificateResponse> getClosureCertificate(@PathVariable String loanNumber) {
         return ResponseEntity.ok(loanService.getClosureCertificate(loanNumber));
+    }
+
+    @PostMapping("/pre-close")
+    public ResponseEntity<LoanResponse> preCloseLoan(@Valid @RequestBody PreCloseLoanRequest request) {
+        LoanResponse response = loanService.preCloseLoan(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }

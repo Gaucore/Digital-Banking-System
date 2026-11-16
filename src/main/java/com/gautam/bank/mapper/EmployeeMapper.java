@@ -30,7 +30,9 @@ public class EmployeeMapper {
     }
 
     public EmployeeResponse toResponse(Employee employee) {
-        return EmployeeResponse.builder().id(employee.getId()).employeeCode(employee.getEmployeeCode())
+        return EmployeeResponse.builder()
+                .id(employee.getId())
+                .employeeCode(employee.getEmployeeCode())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .fullName(employee.getFirstName() + " " + employee.getLastName())
@@ -39,6 +41,7 @@ public class EmployeeMapper {
                 .designation(employee.getDesignation())
                 .branch(employee.getBranch())
                 .joiningDate(employee.getJoiningDate())
+                .salary(employee.getSalary())
                 .address(employee.getAddress())
                 .username(employee.getUser().getUsername())
                 .role(employee.getUser().getRole().name())
