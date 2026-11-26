@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gautam.bank.dto.request.customer.CustomerRequest;
 import com.gautam.bank.dto.request.enableBankingCustomer.EnableInternetBankingRequest;
 import com.gautam.bank.dto.response.account.CustomerAccountResponse;
+import com.gautam.bank.dto.response.customer.CustomerDashboardResponse;
 import com.gautam.bank.dto.response.customer.CustomerResponse;
 import com.gautam.bank.dto.response.customerProfile.CustomerProfileResponse;
 import com.gautam.bank.dto.response.enableBankingCustomer.InternetBankingResponse;
@@ -311,6 +312,77 @@ public class CustomerServiceImpl implements CustomerService {
                 }
 
                 return responses;
+        }
+
+        @Override
+        @Transactional(readOnly = true)
+        public CustomerDashboardResponse getDashboard() {
+
+                String username = SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName();
+
+                User user = userRepository.findByUsername(username)
+                                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+                Customer customer = customerRepository.findByUser(user)
+                                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+                CustomerProfileResponse profile = CustomerProfileResponse
+                                .builder()
+                                .customerCode(customer.getCustomerCode())
+                                .firstName(customer.getFirstName())
+                                .lastName(customer.getLastName())
+                                .email(customer.getEmail())
+                                .phone(customer.getPhone())
+                                .status(customer.getStatus().name())
+                                .username(user.getUsername())
+                                .build();
+
+                List<CustomerAccountResponse> accounts = accountRepository.findByCustomer(customer)
+                                .stream()
+                                .map(account -> CustomerAccountResponse
+                                                .builder()
+                                                .accountNumber(account.getAccountNumber())
+                                                .accountType(account.getAccountType())
+                                                .balance(account.getBalance())
+                                                .accountStatus(account.getAccountStatus())
+                                                .build())
+                                .toList();
+
+                List<CustomerTransactionResponse> transactions = transactionRepository
+                                .findTop5ByAccountCustomerOrderByCreatedAtDesc(customer)
+                                .stream()
+                                .map(transaction -> CustomerTransactionResponse
+                                                .builder()
+                                                .transactionNumber(transaction.getTransactionNumber())
+                                                .transactionType(transaction.getTransactionType())
+                                                .fromAccountNumber(
+                                                                transaction.getFromAccount() != null
+                                                                                ? transaction.getFromAccount()
+                                                                                                .getAccountNumber()
+                                                                                : null)
+                                                .toAccountNumber(
+                                                                transaction.getToAccount() != null
+                                                                                ? transaction.getToAccount()
+                                                                                                .getAccountNumber()
+                                                                                : null)
+                                                .amount(transaction.getAmount())
+                                                .previousBalance(transaction.getPreviousBalance())
+                                                .currentBalance(transaction.getCurrentBalance())
+                                                .remarks(transaction.getRemarks())
+                                                .transactionDate(transaction.getCreatedAt().toLocalDate())
+                                                .build())
+                                .toList();
+
+                return CustomerDashboardResponse
+                                .builder()
+                                .customer(profile)
+                                .accounts(accounts)
+                                .recentTransactions(transactions)
+                                .build();
+
         }
 
 }

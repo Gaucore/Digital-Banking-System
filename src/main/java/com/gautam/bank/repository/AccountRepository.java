@@ -27,4 +27,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     List<Account> findByCustomer(Customer customer);
 
+    long countByCustomer(Customer customer);
+
+    Optional<Account> findFirstByCustomerOrderByIdAsc(Customer customer);
+
 }

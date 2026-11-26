@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import com.gautam.bank.dto.request.customer.CustomerRequest;
 import com.gautam.bank.dto.request.enableBankingCustomer.EnableInternetBankingRequest;
 import com.gautam.bank.dto.response.account.CustomerAccountResponse;
+import com.gautam.bank.dto.response.customer.CustomerDashboardResponse;
 import com.gautam.bank.dto.response.customer.CustomerResponse;
 import com.gautam.bank.dto.response.customerProfile.CustomerProfileResponse;
 import com.gautam.bank.dto.response.enableBankingCustomer.InternetBankingResponse;
@@ -36,6 +37,9 @@ public interface CustomerService {
     List<CustomerAccountResponse> getMyAccounts();
 
     List<CustomerTransactionResponse> getMyTransactions(TransactionFilterRequest request);
+
     List<CustomerResponse> getAllCustomersData();
-    
+
+    CustomerDashboardResponse getDashboard();
+
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gautam.bank.dto.request.customer.CustomerRequest;
 import com.gautam.bank.dto.request.enableBankingCustomer.EnableInternetBankingRequest;
 import com.gautam.bank.dto.response.account.CustomerAccountResponse;
+import com.gautam.bank.dto.response.customer.CustomerDashboardResponse;
 import com.gautam.bank.dto.response.customer.CustomerResponse;
 import com.gautam.bank.dto.response.customerProfile.CustomerProfileResponse;
 import com.gautam.bank.dto.response.enableBankingCustomer.InternetBankingResponse;
@@ -76,6 +77,9 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
-   
+    @GetMapping("/dashboard")
+    public ResponseEntity<CustomerDashboardResponse> getDashboard() {
+        return ResponseEntity.ok(customerService.getDashboard());
+    }
 
 }

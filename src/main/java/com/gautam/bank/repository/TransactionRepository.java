@@ -10,24 +10,36 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.gautam.bank.entity.account.Account;
+import com.gautam.bank.entity.customer.Customer;
 import com.gautam.bank.entity.transaction.Transaction;
 import com.gautam.bank.enums.TransactionType;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
 
-    Optional<Transaction> findByTransactionNumber(String transactionNumber);
+        Optional<Transaction> findByTransactionNumber(String transactionNumber);
 
-    List<Transaction> findByAccountId(Long accountId);
+        List<Transaction> findByAccountId(Long accountId);
 
-    List<Transaction> findByTransactionType(TransactionType transactionType);
+        List<Transaction> findByTransactionType(TransactionType transactionType);
 
-    List<Transaction> findByAccountId(Long accountId, Sort sort);
+        List<Transaction> findByAccountId(Long accountId, Sort sort);
 
-    List<Transaction> findByAccountOrderByCreatedAtDesc(Account account);
+        List<Transaction> findByAccountOrderByCreatedAtDesc(Account account);
 
-    List<Transaction> findTop10ByAccountOrderByCreatedAtDesc(Account account);
+        List<Transaction> findTop10ByAccountOrderByCreatedAtDesc(Account account);
 
-    List<Transaction> findByAccountAndCreatedAtBetweenOrderByCreatedAtDesc(Account account,LocalDateTime from,LocalDateTime to);
+        List<Transaction> findByAccountAndCreatedAtBetweenOrderByCreatedAtDesc(Account account, LocalDateTime from,
+                        LocalDateTime to);
+
+        long countByFromAccountCustomerOrToAccountCustomer(
+                        Customer fromCustomer,
+                        Customer toCustomer);
+
+        List<Transaction> findTop5ByAccountCustomerOrderByCreatedAtDesc(Customer customer);
+
+        List<Transaction> findTop5ByFromAccountCustomerOrToAccountCustomerOrderByCreatedAtDesc(
+                        Customer fromCustomer,
+                        Customer toCustomer);
 
 }
